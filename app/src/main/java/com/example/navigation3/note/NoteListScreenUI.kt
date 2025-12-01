@@ -16,7 +16,8 @@ import androidx.compose.ui.unit.dp
 @Composable
 fun NoteListScreenUI(
     onNoteClick: (Int) -> Unit,
-    modifier: Modifier = Modifier) {
+    modifier: Modifier = Modifier
+) {
     LazyColumn(
         modifier = modifier.fillMaxSize(),
         verticalArrangement = Arrangement.spacedBy(10.dp),

@@ -11,7 +11,7 @@ data class Note(
 )
 
 
-val sampleNotes = listOf(100).map {
+val sampleNotes = (0 until  100).map{
     Note(
         id = it,
         title = "Title $it",

@@ -2,8 +2,6 @@ package com.example.navigation3.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.lifecycle.viewmodel.navigation3.rememberViewModelStoreNavEntryDecorator
-import androidx.navigation3.runtime.rememberSaveableStateHolderNavEntryDecorator
 import androidx.navigation3.runtime.NavEntry
 import androidx.navigation3.runtime.NavKey
 import androidx.navigation3.runtime.rememberNavBackStack
@@ -11,6 +9,8 @@ import androidx.navigation3.ui.NavDisplay
 import com.example.navigation3.note.NoteDetailsScreenUI
 import com.example.navigation3.note.NoteListScreenUI
 import kotlinx.serialization.Serializable
+import org.koin.androidx.compose.koinViewModel
+import org.koin.core.parameter.parametersOf
 
 @Serializable
 object NoteListScreen : NavKey
@@ -26,10 +26,6 @@ fun NavigationRoot(
 
     NavDisplay(
         backStack = backStack,
-        entryDecorators = listOf(
-            rememberSaveableStateHolderNavEntryDecorator(),
-            rememberViewModelStoreNavEntryDecorator(),
-        ),
         entryProvider = { key ->
             when (key) {
                 is NoteListScreen -> {
@@ -39,7 +35,7 @@ fun NavigationRoot(
                         NoteListScreenUI(
                             onNoteClick = { noteId ->
                                 // TODO: fix this later
-                                //backStack.add(NoteDetailsScreenUI())
+                                backStack.add(NoteDetailScreen(noteId))
                             }
                         )
                     }
@@ -49,7 +45,11 @@ fun NavigationRoot(
                     NavEntry(
                         key = key
                     ) {
-                        NoteDetailsScreenUI(id = key.id)
+                        NoteDetailsScreenUI(
+                            viewModel = koinViewModel {
+                                parametersOf(key.id)
+                            }
+                        )
                     }
                 }
 
