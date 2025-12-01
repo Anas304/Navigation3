@@ -5,6 +5,7 @@ import androidx.compose.ui.Modifier
 import androidx.navigation3.runtime.NavEntry
 import androidx.navigation3.runtime.NavKey
 import androidx.navigation3.runtime.rememberNavBackStack
+import androidx.navigation3.scene.DialogSceneStrategy
 import androidx.navigation3.ui.NavDisplay
 import com.example.navigation3.note.NoteDetailsScreenUI
 import com.example.navigation3.note.NoteListScreenUI
@@ -26,6 +27,7 @@ fun NavigationRoot(
 
     NavDisplay(
         backStack = backStack,
+        sceneStrategy = DialogSceneStrategy(),
         entryProvider = { key ->
             when (key) {
                 is NoteListScreen -> {
@@ -43,7 +45,8 @@ fun NavigationRoot(
 
                 is NoteDetailScreen -> {
                     NavEntry(
-                        key = key
+                        key = key,
+                        metadata = DialogSceneStrategy.dialog()
                     ) {
                         NoteDetailsScreenUI(
                             viewModel = koinViewModel {
